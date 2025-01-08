@@ -52,6 +52,10 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 ]
 
+MEDIA_URL='/media/'
+LOGIN_URL='/login/'
+LOGOUT_REDIRECT_URL = '/login/'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
