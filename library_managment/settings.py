@@ -15,6 +15,7 @@ import os
 import environ
 env = environ.Env()
 environ.Env.read_env()
+PORT = os.getenv('PORT', '8000')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,7 +81,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'library_managment.wsgi.app'
+WSGI_APPLICATION = 'library_managment.wsgi.application'
 
 
 # Database
