@@ -1,0 +1,6 @@
+myenv
+
+library_managment/.env
+
+db.sqlite3
+__pycache__/

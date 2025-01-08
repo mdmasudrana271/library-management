@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% load static %} {% block head_title %}Library
+Mangement System{% endblock %} {% block content %}
+<div
+  class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24"
+>
+  <div
+    class="flex flex-col w-full  justify-center items-start pt-12 pb-24 px-6 bg-white rounded-2xl text-gray-600 mx-3"
+  >
+    <h1 class="font-bold text-4xl my-4">
+      Welcome to The Great Library of Córdoba
+    </h1>
+    <p class="leading-normal mb-4">
+      This library was said to contain hundreds of thousands of manuscripts, and
+      was comparable to the Library of Alexandria.
+    </p>
+  </div>
+</div>
+
+<div class="p-4 mt-5">
+  <div class="bg-white rounded p-3">
+    <h5 class="text-3xl text-gray-700 font-semibold">All Category</h5>
+    <div class="flex flex-wrap gap-2 items-center justify-center">
+      {% for category in categorys %}
+      <a
+        href="{% url 'category_wise_book' category.slug %}"
+        class="bg-green-500 text-white px-4 py-2 rounded text-sm font-medium hover:bg-green-600"
+      >
+        {{ category.name }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="p-3">
+    <h4 class="text-xl text-white font-semibold">{{ data | length }} results found</h4>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-5">
+      {% for book in data %}
+          <div class="card card-compact bg-base-100  shadow-xl">
+            <figure>
+              <img
+                src="{{book.image.url}}"
+                class="w-full h-48 object-cover"
+                alt="..."
+              />
+            </figure>
+            <div class="card-body">
+              <h2 class="card-title">{{ book.title }}</h2>
+              <p>{{ book.description | truncatewords:10}}</p>
+              <p class="font-semibold">Category: {{ book.category }}</p>
+              <p class="font-semibold">Borrow Price: ${{ book.borrowing_price }}</p>
+              <div class="card-actions justify-end">
+                <a href="{%url 'detail_book' book.id%}" class="btn btn-primary">Details</a>
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

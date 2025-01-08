@@ -1,0 +1,90 @@
+{% extends 'base.html' %} {% load static %} {% block head_title %}Library Management System{% endblock%} {% block content %} {% if form.non_field_errorss%} {% for error in form.non_field_errors %}
+    <div
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2"
+    role="alert"
+    >
+    <p class="font-bold">Error!</p>
+    <p class="block sm:inline">{{ error }}</p>
+    </div>
+{% endfor %} {% endif %} {% if form.non_field_errors %} {% for error in form.non_field_errors %}
+    <div
+    class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2"
+    role="alert"
+    >
+    <p class="font-bold">Error!</p>
+    <p class="block sm:inline">{{ error }}</p>
+    </div>
+{% endfor %} {% endif %}
+
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-10">
+  <div
+    class="md:col-span-4 bg-gray-200 p-4 shadow border text-black p-3 mb-5 bg-body-gray-400 rounded"
+  >
+    <h1 class="text-3xl font-bold">My Profiles</h1>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+        <p class="card-text">
+          Passionate about technology, teaching, and empowering others through
+          innovation Skilled in MERN Stack, Python Django, and competitive
+          programming. Dedicated to continuous learning, with a focus on
+          creating impactful solutions.Aspiring to inspire and guide the next
+          generation of tech enthusiasts.Always ready to collaborate on exciting
+          projects and share knowledge.
+        </p>
+        <p class="card-text">Username: {{user.username}}</p>
+      </div>
+      <div class="card-body">
+        <a class="btn btn-warning" href="{%url 'edit_profile'%}">Edit Your Profile</a>
+        <a class="btn btn-warning" href="{%url 'pass_change'%}">Change Your Password</a>
+        <a class="btn btn-warning" href="{%url 'transaction_report'%}">Transactions Reports</a>
+      </div>
+    </div>
+  </div>
+  <div class="md:col-span-8 bg-gray-200 p-4 shadow border text-black p-3 mb-5 bg-body-gray-400 rounded">
+    <div class="overflow-x-auto">
+        <table class="table">
+          <!-- head -->
+          <thead class="text-black">
+            <tr>
+              <th>Id</th>
+              <th>Book</th>
+              <th>Borrowing Price</th>
+              <th>Borrow Date</th>
+              <th>Action</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- row 1 -->
+            {%for book in borrowed_books%}
+                <tr>
+                  <th>
+                    {{book.id}}
+                  </th>
+                  <td>
+                    {{book.book.title}}
+                  </td>
+                  <td>
+                    ${{book.book.borrowing_price}}
+                  </td>
+                  <td>
+                    {{book.borrow_date}}
+                  </td>
+                  <th>
+                    <form action="{% url 'return_book' book.id %}" method="post" style="display: inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-warning" {%if not book.book.is_borrowed%}disabled{%endif%}>
+                          Return Book
+                      </button>
+                  </form>
+                  </th>
+                </tr>
+            {%endfor%}
+            
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+{% block content %}
+<div class="">
+    <div class="card m-2 bg-white shadow-lg rounded-lg p-4">
+        <div class="card-body">
+            <img src="{{book.image.url}}" class="card-img-top mx-auto w-full h-98 object-cover" alt="..." >
+            <h1 class="card-title text-2xl text-gray-700 font-bold mt-4">{{book.title}}</h1>
+            <p class="card-text text-gray-700 mt-2">{{book.description}}</p>
+            <p class="font-semibold text-gray-800 mt-4">Category: <span class="text-black text-sm px-6 py-3 m-2 rounded bg-warning">{{book.category}}</span></p>
+            <p class="font-semibold text-gray-700">Price : ${{book.borrowing_price}}</p>
+            <p class="font-semibold text-gray-700">Status : {%if book.is_borrowed%}Borrowed {%else%} Available{%endif%}</p>
+            <p class="font-semibold text-gray-700">id : {{book.id}}</p>
+            <div class="card-actions justify-start">
+                {% if request.user.is_authenticated and not book.is_borrowed%}
+                    <form method="post" action="{% url 'borrow_book' book.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Borrow</button>
+                    </form>
+                {% endif %} 
+                
+              </div>
+        </div>
+    </div>
+</div>
+
+<div class="card m-2 bg-white shadow-lg rounded-lg p-4">
+    <h5 class="p-3 text-gray-700 text-lg font-medium">Total Reviews : {{reviews | length}}</h5>
+    {% for review in reviews %}
+        <div class="card-body text-gray-700 border border-gray-300 m-2 p-4 rounded-lg">
+            <h3 class="font-bold text-lg">{{review.name}}</h3>
+            <p class="font-semibold text-gray-700 mt-2">{{review.body}}</p>
+            <small class="text-gray-500">{{review.created_on}}</small>
+        </div>
+    {% endfor %}
+    {%if has_borrowed%}
+        <a class="btn btn-accent" href="{%url 'add_review' book.id%}">Add Review</a>
+    {%endif%}
+</div>
+{% comment %} {%if has_borrowed%}
+<div class="card m-2 bg-white shadow-lg rounded-lg p-4">
+    <div class="card-body">
+        <form method="post" class="text-gray-700">
+            <h1 class="text-xl font-bold mb-4">Add Reviews</h1>
+            {% csrf_token %}
+            {{reviews_form}}
+
+            <button class="btn btn-warning text-black px-4 py-2 rounded mt-4 border-none">Submit</button>
+        </form>
+    </div>
+</div>
+{%endif%} {% endcomment %}
+{% endblock %}

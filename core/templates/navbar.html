@@ -1,0 +1,59 @@
+<div class="navbar bg-gray-200">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </div>
+        <ul
+          tabindex="0"
+          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow gap-2">
+          <li><a href="/" class="btn btn-info">Home</a></li>
+          {% if request.user.is_authenticated %}
+            <li><a href="{% url 'profile' %}" class="btn btn-info">Profile</a></li>
+            <li><a href="{% url 'deposit_money' %}" class="btn btn-info">
+                Deposit
+            </a></li>
+            <li><a href="{% url 'logout' %}" class="btn btn-info">Logout</a></li>
+          {%else%}
+          <li><a href="{% url 'login' %}" class="btn btn-info">Login</a></li>
+          <li><a href="{% url 'register' %}" class="btn btn-info">Register</a></li>
+          {%endif%}
+          <li><div class="flex w-auto">
+            <div class="text-blue-900 my-auto font-black px-5 text-white">Welcome, {{ request.user.first_name }} (balance : {{request.user.account.balance}}) </div>
+            
+        </div> </li>
+        </ul>
+      </div>
+      <a href="/" class="text-black text-2xl px-4">Library of Córdoba</a>
+    </div>
+    <div class="navbar-end hidden lg:flex">
+      <ul class="menu menu-horizontal px-1 gap-2">
+        <li><a href="/" class="btn btn-info">Home</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'profile' %}" class="btn btn-info">Profile</a></li>
+            <li><a href="{% url 'deposit_money' %}" class="btn btn-info">
+                Deposit
+            </a></li>
+            <li><a href="{% url 'logout' %}" class="btn btn-info">Logout</a></li>
+            <li><div class="flex w-auto">
+                <div class="text-blue-900 my-auto font-black px-5">Welcome, {{ request.user.first_name }} (balance : {{request.user.account.balance}}) </div>
+                
+            </div> </li>
+          {%else%}
+          <li><a href="{% url 'login' %}" class="btn btn-info">Login</a></li>
+          <li><a href="{% url 'register' %}" class="btn btn-info">Register</a></li>
+          {%endif%}
+      </ul>
+    </div>
+  </div>
